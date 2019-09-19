@@ -11,11 +11,27 @@ except:
     print("eg: wavscraper.py url.com /User/John/Downloads")
     sys.exit(2)
 
+if not os.path.exists(userpathFromArg):
+    try:
+        os.makedirs(userpathFromArg)
+        print("created: ", userpathFromArg)
+    except:
+        print("could not make directory check argument")
+        sys.exit(2)
+
+
 page = requests.get(URLfromArg)
 webpage = html.fromstring(page.content)
 
-scrapedURLs = webpage.xpath('//a[contains(text(), "wav")]/@href')
+
+scrapedURLs = webpage.xpath('//a[contains(text(), ".wav")]/@href')
 fileName = webpage.xpath('//a[contains(@href, ".wav")]/text()')
+
+if not scrapedURLs:
+    print()
+    print("zero .wav files found at", URLfromArg, "exiting...")
+    sys.exit(2)
+
 
 for idx, url in enumerate(scrapedURLs) :
     split = str(url.split("/")[-1:]).strip("['""']")
@@ -29,4 +45,5 @@ for idx, url in enumerate(scrapedURLs) :
         print("writing: ", userpath)
         with open(userpath, 'wb') as f:
             f.write(r.content)
+
 
