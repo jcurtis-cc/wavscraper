@@ -3,5 +3,5 @@ simple python script to scrape .wav files from a website
 
 run from commandline
 
-**usage: wavscraper.py <url.com> <userpath>**
+<b>usage: wavscraper.py <url.com> <userpath> <br>
 eg: wavscraper.py url.com /User/John/Downloads
